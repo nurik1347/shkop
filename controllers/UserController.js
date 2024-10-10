@@ -2,14 +2,14 @@ const User = require('../models/User');
 
 // Create new user
 const createUser = async (req, res) => {
-    const { name, age, surname } = req.body;
-    console.log(name, age, surname)
-    if (!name || !age || !surname) {
+    const { name, password, email } = req.body;
+    console.log(name, password, email);
+    if (!name || !password || !email) {
         return res.status(400).json({ message: 'Bad Request: Missing data' });
     }
 
     try {
-        const newUser = new User({ name, age, surname });
+        const newUser = new User({ name, password, email });
         await newUser.save();
         res.json({ data: newUser });
     } catch (err) {
@@ -40,12 +40,12 @@ const getUserById = async (req, res) => {
 
 // Update user by ID
 const updateUser = async (req, res) => {
-    const { name, age, surname } = req.body;
+    const { name, password, email } = req.body;
 
     try {
         const user = await User.findByIdAndUpdate(
             req.params.id,
-            { name, age, surname },
+            { name, password, email },
             { new: true, runValidators: true }
         );
 
