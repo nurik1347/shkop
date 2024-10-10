@@ -6,7 +6,7 @@ const userRoutes = require('./routes/users');
 
 // Directly define your MongoDB URI and port here
 const MONGO_URI = 'mongodb+srv://nurikmirzaev1747:xoS1mBTncpjRGQJk@cluster0.7jv7r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-const PORT = 5002;
+const PORT = process.env.PORT || 5002; // Dinamik port uchun process.env.PORT qo‘shildi
 
 const app = express();
 
@@ -23,5 +23,5 @@ app.use('/users', userRoutes);
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Your API is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
