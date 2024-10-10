@@ -1,26 +1,27 @@
 const express = require('express');
-const dotenv = require('dotenv');
-const connectDB = require('./config/database');
-const UserRouter = require('./routes/users');
 const cors = require('cors');
+const connectDB = require('./config/database');
+const calculateRoutes = require('./routes/calculate');
+const userRoutes = require('./routes/users');
 
-dotenv.config();
-
-connectDB();
+// Directly define your MongoDB URI and port here
+const MONGO_URI = 'mongodb+srv://nurikmirzaev1747:xoS1mBTncpjRGQJk@cluster0.7jv7r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const PORT = 5002;
 
 const app = express();
-app.use(cors());
 
+// Connect to MongoDB using the URI defined above
+connectDB(MONGO_URI);
+
+// Middleware
+app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Server is running');
-});
+// Routes
+app.use('/calculate', calculateRoutes);
+app.use('/users', userRoutes);
 
-app.use('/user', UserRouter);
-
-const PORT = process.env.PORT || 5002
-
+// Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Your API is running on port ${PORT}`);
 });
